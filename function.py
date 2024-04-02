@@ -3,13 +3,13 @@ def preprocessamento(file):
     from sklearn.model_selection import train_test_split
     
     dados = pd.read_csv(file)
-    dados = dados.drop(['Month', 'Weekend', 'Revenue'], axis=1)
+    dados = dados.drop(['Month', 'Weekend'], axis=1)
     
     colunas_features = ['Administrative', 'Administrative_Duration', 'Informational', 
                'Informational_Duration', 'ProductRelated', 'ProductRelated_Duration', 'BounceRates', 'ExitRates',	
                'PageValues', 'SpecialDay',	'OperatingSystems', 'Browser', 'Region', 'TrafficType']
     x= dados[colunas_features]
-    y = dados['VisitorType']
+    y = dados['Revenue']
     
     x, x_test, y, y_test = train_test_split(x, y, test_size=0.15, random_state=0)
     x_train, x_val, y_train, y_val = train_test_split(x, y, random_state=0)
@@ -37,7 +37,7 @@ def metrics(y_val,target_predict_validation, y_test, target_predict_test):
     recall = recall_score(y_test, target_predict_test, average='weighted')  
     f1 = f1_score(y_test, target_predict_test, average='weighted')
     
-    target_names = ['Returning_Visitor', 'New_Visitor', 'Other']
+    target_names = ['False', 'True']
     report = classification_report(y_test, target_predict_test, target_names=target_names)
     
     
